@@ -2,11 +2,8 @@ import { Request, Response, NextFunction } from 'express';
 import { body, validationResult } from 'express-validator';
 
 const validateSessionStore = (validations = []) => {
-    validations = [
-        body('email').isEmail(),
-        body('password').isLength({ min: 8 })
-    ];
-
+    validations = getValidations();
+    
     return async (req: Request, res: Response, next: NextFunction) => {
       for (let validation of validations) {
         const result = await validation.run(req);
