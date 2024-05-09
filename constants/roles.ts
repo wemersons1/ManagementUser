@@ -1,4 +1,4 @@
 const ADMIN = 1;
-const OPERATOR = 2;
+const DEFAULT = 2;
 
-export { ADMIN, OPERATOR };
+export { ADMIN, DEFAULT };

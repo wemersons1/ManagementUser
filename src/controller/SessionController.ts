@@ -1,14 +1,26 @@
-import { Request, Response } from "express"
-import { SessionService } from "../services/Session/SessionService"
-import container from "../config/container";
-
+import { Request, Response } from "express";
+import container from '../config/container';
+import { SessionService } from "../services/Session/SessionService";
+import { sign } from 'jsonwebtoken';
 class SessionController {
+    constructor() {
+        
+    }
+
     async store(req: Request, res: Response) {
         const { email, password } = req.body;
 
-        const session = await container.resolve(SessionService).create({email, password});
+        const token = await container.resolve(SessionService)
+                                    .create({email, password});
 
-        res.json(session);
+        if(token) {
+            res.json(token);
+        }
+
+        res.status(401)
+            .json({
+                message: "Usuário ou senha inválidos"
+            });
     }
 }
 

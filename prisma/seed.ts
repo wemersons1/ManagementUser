@@ -14,11 +14,11 @@ async function main() {
       });
 
     await dbClient.role.upsert({
-        where: { name: 'Operator' },
+        where: { name: 'Default' },
         update: {},
         create: {
         id: 2,
-            name: 'Operator',
+            name: 'Default',
         },
     });
 

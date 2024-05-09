@@ -1,7 +1,5 @@
-import 'reflect-metadata';
-import { injectable, inject } from 'tsyringe';
+import { inject, injectable } from 'tsyringe';
 import { SessionRepositoryInterface } from "../../repositories/Session/SessionRepositoryInterface";
-
 interface SessionInterface {
     email: string;
     password: string;
@@ -9,9 +7,7 @@ interface SessionInterface {
 
 @injectable()
 class SessionService {
-    constructor(@inject('SessionRepository') private sessionRepository: SessionRepositoryInterface) {
-
-    }
+    constructor(@inject('SessionRepository') private sessionRepository: SessionRepositoryInterface) {}
 
     async create(data: SessionInterface) {
         return await this.sessionRepository.create(data);
