@@ -5,6 +5,7 @@ import { verifyIfIsAuthenticated } from '../middlewares/VerifyIfIsAuthenticate';
 
 const router = Router();
 
-router.post('/login', verifyIfIsAuthenticated, validateSessionStore, new SessionController().store);
+router.post('/login', validateSessionStore, new SessionController().store);
+router.post('/users', verifyIfIsAuthenticated, validateSessionStore, new SessionController().store);
 
 export { router }

@@ -1,16 +1,16 @@
 import { compare } from "bcrypt";
 import dbClient from "../../dbClient";
-import { SessionRepositoryInterface } from "./SessionRepositoryInterface";
+import { SessionProviderInterface } from "./SessionProviderInterface";
 import { sign } from "jsonwebtoken";
 
 interface SessionRequest {
     email: string;
     password: string;
 }
-class SessionRepository implements SessionRepositoryInterface {
+class SessionProvider implements SessionProviderInterface {
     async create(data: SessionRequest) {
         
     }
 }
 
-export { SessionRepository };
+export { SessionProvider };

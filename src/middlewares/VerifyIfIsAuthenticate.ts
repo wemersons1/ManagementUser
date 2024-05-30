@@ -14,7 +14,6 @@ const verifyIfIsAuthenticated = (req: Request, res: Response, next: NextFunction
                 process.env.JWT_KEY
             );
 
-            console.log(teste);
         }catch(err) {
             return res.status(401).end();
         }

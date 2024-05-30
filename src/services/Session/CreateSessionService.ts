@@ -1,5 +1,6 @@
 import { inject, injectable } from 'tsyringe';
-import { SessionRepositoryInterface } from "../../repositories/Session/SessionRepositoryInterface";
+import { SessionProviderInterface } from "../../provider/Session/SessionProviderInterface";
+import { FindUserByEmailService } from '../User/FindUserByEmailService';
 interface SessionInterface {
     email: string;
     password: string;
@@ -7,17 +8,14 @@ interface SessionInterface {
 
 @injectable()
 class CreateSessionService {
-    constructor(@inject('SessionRepository') private sessionRepository: SessionRepositoryInterface) {}
+    constructor(@inject('SessionRepository') private sessionProvider: SessionProviderInterface) {}
 
     async execute(data: SessionInterface) {
         const { email, password } = data;
         
-        //INJETAR O USER REPOSITORY
-        const user = await dbClient.user.findFirst({
-            where: {
-                email
-            }
-        });
+        const findUserByEmailService = new FindUserByEmailService();
+
+        const user = await findUserByEmailService.execute(email);
 
         if(!user) {
             throw new Error('Usuário não encontrado');
@@ -43,10 +41,7 @@ class CreateSessionService {
             }
         );
 
-        return {
-            token
-        };
-        
+        return token;
     }   
 }
 
