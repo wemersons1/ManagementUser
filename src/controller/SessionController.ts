@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import container from '../config/container';
-import { SessionService } from "../services/Session/SessionService";
+import { CreateSessionService } from "../services/Session/CreateSessionService";
 import { sign } from 'jsonwebtoken';
 class SessionController {
     constructor() {
@@ -10,8 +10,8 @@ class SessionController {
     async store(req: Request, res: Response) {
         const { email, password } = req.body;
 
-        const token = await container.resolve(SessionService)
-                                    .create({email, password});
+        const createSessionService = await container.resolve(CreateSessionService);
+        const token = await createSessionService.execute({email, password});
 
         if(token) {
             res.json(token);
