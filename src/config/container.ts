@@ -1,9 +1,9 @@
 import { container } from 'tsyringe';
-import { SessionRepositoryInterface } from '../provider/Session/SessionProviderInterface';
-import { SessionRepository } from '../provider/Session/SessionProvider';
-import { SessionService } from '../services/Session/CreateSessionService';
+import { AuthProviderInterface } from '../providers/Auth/AuthProviderInterface';
+import { AuthProvider } from '../providers/Auth/AuthProvider';
+import { CreateSessionService } from '../services/Session/CreateSessionService';
 
-container.registerSingleton<SessionRepositoryInterface>('SessionRepository', SessionRepository);
-container.resolve(SessionService); 
+container.registerSingleton<AuthProviderInterface>('AuthProvider', AuthProvider);
+container.resolve(CreateSessionService); 
 
 export default container;

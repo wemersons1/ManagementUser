@@ -1,11 +1,11 @@
-import { Router, Request, Response } from 'express';
+import { Router } from 'express';
 import { SessionController } from '../controller/SessionController';
-import { validateSessionStore } from '../validators/requests/session/SessionStoreRequest';
+import { StoreSessionRequest, rulesStoreSessionRequest } from '../validators/requests/session/SessionStoreRequest';
 import { verifyIfIsAuthenticated } from '../middlewares/VerifyIfIsAuthenticate';
 
 const router = Router();
 
-router.post('/login', validateSessionStore, new SessionController().store);
-router.post('/users', verifyIfIsAuthenticated, validateSessionStore, new SessionController().store);
+router.post('/login', rulesStoreSessionRequest, new StoreSessionRequest().handle, new SessionController().store);
+// router.post('/users', verifyIfIsAuthenticated, validateSessionStore, new SessionController().store);
 
 export { router }

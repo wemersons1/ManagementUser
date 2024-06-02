@@ -1,5 +1,5 @@
 import { inject, injectable } from 'tsyringe';
-import { SessionProviderInterface } from "../../provider/Session/SessionProviderInterface";
+import { AuthProviderInterface } from "../../providers/Auth/AuthProviderInterface";
 import { FindUserByEmailService } from '../User/FindUserByEmailService';
 interface SessionInterface {
     email: string;
@@ -8,7 +8,7 @@ interface SessionInterface {
 
 @injectable()
 class CreateSessionService {
-    constructor(@inject('SessionRepository') private sessionProvider: SessionProviderInterface) {}
+    constructor(@inject('AuthProvider') private authProvider: AuthProviderInterface) {}
 
     async execute(data: SessionInterface) {
         const { email, password } = data;
@@ -21,16 +21,14 @@ class CreateSessionService {
             throw new Error('Usuário não encontrado');
         }
 
-        const userPassword = user.password as string;
-        //Criar provider pra isto
-        const passwordMatch = await compare(password, userPassword);
+        const passwordMatch = await this.authProvider.comparePassword(password, user.password);
         
         if(!passwordMatch) {
             throw new Error('Usuário ou senha inválido(s)');
         }
 
         //Criar provider pra isto
-        const token = sign(
+        const token = this.authProvider.sign(
             {
                 name: user.first_name,
                 email: user.email
