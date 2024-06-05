@@ -30,7 +30,7 @@ async function main() {
             first_name: 'Admin',
             last_name: 'Admin',
             role_id: ADMIN,
-            birth_day: '2000-01-01T12:00:00Z',
+            birth_day: '2000-01-01',
             password: await bcrypt.hash('12345678', HASH_SALT)
         },
     });  

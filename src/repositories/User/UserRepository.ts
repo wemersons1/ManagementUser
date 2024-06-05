@@ -4,7 +4,7 @@ import { UserRepositoryInterface } from "./UserRepositoryInterface";
 interface PayloadUser {
     first_name: string;
     last_name: string;
-    birth_day: Date;
+    birth_day: string;
     role_id: number;
     email: string;
     password: string;
@@ -12,7 +12,7 @@ interface PayloadUser {
 interface DataUser {
     first_name: string;
     last_name: string;
-    birth_day: Date;
+    birth_day: string;
     role_id: number;
     email: string;
 } 
@@ -22,7 +22,57 @@ class UserRepository implements UserRepositoryInterface{
             data
         });
 
-        return this.userFormated(userCreated); 
+        const {     
+            first_name,
+            last_name,
+            birth_day,
+            role_id,
+            email 
+        } = userCreated;
+
+        return {
+            first_name,
+            last_name,
+            birth_day,
+            role_id,
+            email
+        }
+    }
+
+    async update(id: number, data: PayloadUser): Promise<DataUser> {
+        const user = await dbClient.user.findFirst({
+                where: {
+                    id
+                }
+            });
+
+        if(!user) {
+            throw new Error('Usuário não encontrado');
+        }
+
+        const userUpdated =  await dbClient.user.update({
+                                    where: {
+                                        id
+                                    },
+                                    data
+                                });
+                            
+
+        const {     
+            first_name,
+            last_name,
+            birth_day,
+            role_id,
+            email 
+        } = userUpdated;
+
+        return {
+            first_name,
+            last_name,
+            birth_day,
+            role_id,
+            email
+        }
     }
 
     // async update(data: PayloadUser): DataUser {
@@ -40,24 +90,6 @@ class UserRepository implements UserRepositoryInterface{
     // async delete(id: number): void {
 
     // }
-
-    private userFormated(userCreated) {
-        const {     
-            first_name,
-            last_name,
-            birth_day,
-            role_id,
-            email 
-        } = userCreated;
-
-        return {
-            first_name,
-            last_name,
-            birth_day,
-            role_id,
-            email
-        }
-    }
 }
 
 export { UserRepository };

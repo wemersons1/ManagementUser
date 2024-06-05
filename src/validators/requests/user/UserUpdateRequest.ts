@@ -2,9 +2,8 @@ import { body, validationResult } from 'express-validator';
 import { NextFunction, Request, Response } from 'express';
 import { ADMIN, DEFAULT } from '../../../../constants/roles';
 import { parse, isValid, differenceInYears } from 'date-fns';
-import { FindUserByEmailService } from '../../../services/User/FindUserByEmailService';
 
-const rulesStoreUserRequest = [
+const rulesUpdateUserRequest = [
     body('first_name').isString().notEmpty(),
     body('last_name').isString().notEmpty(),
     body('birth_day')  .isISO8601({ strict: true, strictSeparator: true }) // This checks the format YYYY-MM-DD
@@ -29,7 +28,6 @@ const rulesStoreUserRequest = [
 
         return userRoles.includes(role_id);
       }),
-  
     body('email').isEmail().notEmpty(),
     body('password').isString().notEmpty().isLength({ min: 8}),
     body('password_confirmation').custom((value, { req }) => {
@@ -39,7 +37,7 @@ const rulesStoreUserRequest = [
       
 ];
 
-class StoreUserRequest {
+class UserUpdateRequest {
     async handle(req: Request, res: Response, nextFunction: NextFunction) {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
@@ -49,4 +47,4 @@ class StoreUserRequest {
     }
 }
 
-export { rulesStoreUserRequest, StoreUserRequest };
+export { rulesUpdateUserRequest, UserUpdateRequest };

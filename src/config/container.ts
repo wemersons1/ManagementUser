@@ -6,11 +6,13 @@ import { CreateUserService } from '../services/User/CreateUserService';
 
 import { UserRepository } from '../repositories/User/UserRepository';
 import { UserRepositoryInterface } from '../repositories/User/UserRepositoryInterface';
+import { UpdateUserService } from '../services/User/UpdateUserService';
 
 container.registerSingleton<AuthProviderInterface>('AuthProvider', AuthProvider);
 container.registerSingleton<UserRepositoryInterface>('UserRepository', UserRepository);
 
 container.resolve(CreateSessionService); 
 container.resolve(CreateUserService); 
+container.resolve(UpdateUserService); 
 
 export default container;
