@@ -12,7 +12,7 @@ interface PayloadUser {
 interface DataUser {
     first_name: string;
     last_name: string;
-    birth_day: string;
+    years: string;
     role_id: number;
     email: string;
 } 
@@ -33,7 +33,7 @@ class UserRepository implements UserRepositoryInterface{
         return {
             first_name,
             last_name,
-            birth_day,
+            years: this.getUserYears(birth_day),
             role_id,
             email
         }
@@ -69,27 +69,103 @@ class UserRepository implements UserRepositoryInterface{
         return {
             first_name,
             last_name,
+            years: this.getUserYears(birth_day),
+            role_id,
+            email
+        }
+    }
+    
+    async findUserById(id: number): Promise<DataUser> {
+        const user = await dbClient.user.findFirst({
+            where: {
+                id
+            }
+        });
+
+        const {     
+            first_name,
+            last_name,
             birth_day,
+            role_id,
+            email 
+        } = user;
+
+        return {
+            first_name,
+            last_name,
+            years: this.getUserYears(birth_day),
             role_id,
             email
         }
     }
 
-    // async update(data: PayloadUser): DataUser {
+    async findUserByEmail(email: string): Promise<DataUser> {
+        const user = await dbClient.user.findFirst({
+                    where: {
+                        email
+                    }
+                });
 
-    // }
-    
-    // async get(id: number): DataUser {
+        const {     
+            first_name,
+            last_name,
+            birth_day,
+            role_id
+        } = user;
 
-    // }
+        return {
+            first_name,
+            last_name,
+            years: this.getUserYears(birth_day),
+            role_id,
+            email
+        }
+    }
     
     // async list(): Array<DataUser> {
 
     // }
     
-    // async delete(id: number): void {
+    async delete(id: number): Promise<void> {
 
-    // }
+        try {
+            
+            const user = await dbClient.user.findFirst({
+                where: {
+                    id
+                }
+            });
+
+            if(!user) {
+                throw new Error("Usuário não encontrado");
+            }
+            
+             await dbClient.user.delete({
+                       where: {
+                           id,
+                        },
+                });
+            
+          } catch (error) {
+            throw new Error(error);
+          } 
+    }
+
+    private getUserYears(birthDay: string) {
+        const dateBirthDay = new Date(birthDay);
+        const today = new Date();
+        let years = today.getFullYear() - dateBirthDay.getFullYear();
+        const currentMonth = today.getMonth();
+        const currentDay = today.getDate();
+        const monthBirthDay = dateBirthDay.getMonth();
+        const dayBirthDay = dateBirthDay.getDate();
+
+        if (currentMonth < monthBirthDay || (currentMonth === monthBirthDay && currentDay < dayBirthDay)) {
+            years--;
+        }
+
+        return `${years} Years`;
+    }
 }
 
 export { UserRepository };

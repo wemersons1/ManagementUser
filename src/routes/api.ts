@@ -11,5 +11,6 @@ const router = Router();
 router.post('/login', rulesStoreSessionRequest, new StoreSessionRequest().handle, new SessionController().store);
 router.post('/users', verifyIfIsAuthenticated, rulesStoreUserRequest, new StoreUserRequest().handle, new UserController().store);
 router.put('/users/:id', verifyIfIsAuthenticated, rulesUpdateUserRequest, new UserUpdateRequest().handle, new UserController().update);
+router.get('/users/:id', verifyIfIsAuthenticated, new UserController().show);
 
 export { router }

@@ -1,6 +1,7 @@
 import { inject, injectable } from 'tsyringe';
 import { UserRepositoryInterface } from '../../repositories/User/UserRepositoryInterface';
 import { FindUserByEmailService } from './FindUserByEmailService';
+import { FindUserByIdService } from './FindUserByIdService';
 
 interface PayloadUser {
     first_name: string;
@@ -20,15 +21,13 @@ interface DataUser {
 } 
 
 @injectable()
-class CreateUserService {
+class DestroyUserService {
 
     constructor(@inject('UserRepository') private userRepository: UserRepositoryInterface) {}
-    async execute(data: PayloadUser): Promise<DataUser> {
-        const { email } = data;
+    async execute(id: number): Promise<DataUser> {
+        const findUserByIdService = new FindUserByIdService();
         
-        const findUserByEmailService = new FindUserByEmailService();
-        
-        const user = await findUserByEmailService.execute(email);
+        const user = await findUserByIdService.execute(id);
 
         if(user) {
             throw new Error('Usuário já cadastrado');
@@ -38,4 +37,4 @@ class CreateUserService {
     }
 }
 
-export { CreateUserService};
+export { DestroyUserService};

@@ -2,6 +2,8 @@ import { Request, Response } from "express";
 import container from '../config/container';
 import { CreateUserService } from "../services/User/CreateUserService";
 import { UpdateUserService } from "../services/User/UpdateUserService";
+import { FindUserByEmailService } from "../services/User/FindUserByEmailService";
+import { FindUserByIdService } from "../services/User/FindUserByIdService";
 
 class UserController {
     async store(req: Request, res: Response) {
@@ -14,7 +16,7 @@ class UserController {
             password 
         } = req.body;
 
-        const createUserService = await container.resolve(CreateUserService);
+        const createUserService = container.resolve(CreateUserService);
 
         const userCreated = await createUserService.execute({
             first_name,
@@ -40,7 +42,7 @@ class UserController {
             password 
         } = req.body;
 
-        const updateUserService = await container.resolve(UpdateUserService);
+        const updateUserService = container.resolve(UpdateUserService);
 
         const userUpdated = await updateUserService.execute(+id, {
             first_name,
@@ -52,6 +54,16 @@ class UserController {
         });
 
         res.json(userUpdated);
+    }
+
+    async show(req: Request, res: Response) {
+        const { id } = req.params;
+
+        const findUserByIdService = container.resolve(FindUserByIdService);
+        
+        const user = await findUserByIdService.execute(+id);
+
+        res.json(user);
     }
 }
 

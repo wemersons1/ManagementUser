@@ -14,7 +14,7 @@ interface PayloadUser {
 interface DataUser {
     first_name: string;
     last_name: string;
-    birth_day: string;
+    years: string;
     role_id: number;
     email: string;
 } 
