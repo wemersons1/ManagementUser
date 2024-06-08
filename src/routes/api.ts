@@ -12,5 +12,7 @@ router.post('/login', rulesStoreSessionRequest, new StoreSessionRequest().handle
 router.post('/users', verifyIfIsAuthenticated, rulesStoreUserRequest, new StoreUserRequest().handle, new UserController().store);
 router.put('/users/:id', verifyIfIsAuthenticated, rulesUpdateUserRequest, new UserUpdateRequest().handle, new UserController().update);
 router.get('/users/:id', verifyIfIsAuthenticated, new UserController().show);
+router.delete('/users/:id', verifyIfIsAuthenticated, new UserController().destroy);
+router.get('/users', verifyIfIsAuthenticated, new UserController().index);
 
 export { router }

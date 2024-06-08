@@ -24,7 +24,15 @@ class UpdateUserService {
 
     constructor(@inject('UserRepository') private userRepository: UserRepositoryInterface) {}
     async execute(id: number, data: PayloadUser): Promise<DataUser> {
-        return await this.userRepository.update(id, data);
+        const user = await this.userRepository.update(id, data);
+        
+        return {
+            first_name: user.first_name,
+            last_name: user.last_name,
+            years: user.years,
+            role_id: user.role_id,
+            email: user.email
+        };
     }
 }
 

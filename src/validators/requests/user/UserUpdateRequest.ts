@@ -33,8 +33,6 @@ const rulesUpdateUserRequest = [
     body('password_confirmation').custom((value, { req }) => {
         return value === req.body.password;
       }),
-
-      
 ];
 
 class UserUpdateRequest {

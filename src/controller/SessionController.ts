@@ -1,12 +1,8 @@
 import { Request, Response } from "express";
 import container from '../config/container';
 import { CreateSessionService } from "../services/Session/CreateSessionService";
-import { sign } from 'jsonwebtoken';
-class SessionController {
-    constructor() {
-        
-    }
 
+class SessionController {
     async store(req: Request, res: Response) {
         const { email, password } = req.body;
 

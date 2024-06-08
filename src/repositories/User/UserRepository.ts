@@ -15,42 +15,36 @@ interface DataUser {
     years: string;
     role_id: number;
     email: string;
+    password: string;
 } 
 class UserRepository implements UserRepositoryInterface{
     async create(data: PayloadUser): Promise<DataUser> {
-        const userCreated = await dbClient.user.create({
+        const user = await dbClient.user.create({
             data
         });
 
-        const {     
-            first_name,
-            last_name,
-            birth_day,
-            role_id,
-            email 
-        } = userCreated;
-
-        return {
-            first_name,
-            last_name,
-            years: this.getUserYears(birth_day),
-            role_id,
-            email
+        if(user) {
+            return {
+                first_name: user.first_name,
+                last_name: user.last_name,
+                years: this.getUserYears(user.birth_day),
+                role_id: user.role_id,
+                email: user.email,
+                password: user.password
+            }
         }
+
+        return null;
     }
 
     async update(id: number, data: PayloadUser): Promise<DataUser> {
-        const user = await dbClient.user.findFirst({
+        const existUser = await dbClient.user.findFirst({
                 where: {
                     id
                 }
             });
 
-        if(!user) {
-            throw new Error('Usuário não encontrado');
-        }
-
-        const userUpdated =  await dbClient.user.update({
+        const user =  await dbClient.user.update({
                                     where: {
                                         id
                                     },
@@ -58,20 +52,13 @@ class UserRepository implements UserRepositoryInterface{
                                 });
                             
 
-        const {     
-            first_name,
-            last_name,
-            birth_day,
-            role_id,
-            email 
-        } = userUpdated;
-
         return {
-            first_name,
-            last_name,
-            years: this.getUserYears(birth_day),
-            role_id,
-            email
+            first_name: user.first_name,
+            last_name: user.last_name,
+            years: this.getUserYears(user.birth_day),
+            role_id: user.role_id,
+            email: user.email,
+            password: user.password
         }
     }
     
@@ -82,21 +69,18 @@ class UserRepository implements UserRepositoryInterface{
             }
         });
 
-        const {     
-            first_name,
-            last_name,
-            birth_day,
-            role_id,
-            email 
-        } = user;
-
-        return {
-            first_name,
-            last_name,
-            years: this.getUserYears(birth_day),
-            role_id,
-            email
+        if(user) {
+            return {
+                first_name: user.first_name,
+                last_name: user.last_name,
+                years: this.getUserYears(user.birth_day),
+                role_id: user.role_id,
+                email: user.email,
+                password: user.password
+            }
         }
+
+        return null;
     }
 
     async findUserByEmail(email: string): Promise<DataUser> {
@@ -106,49 +90,50 @@ class UserRepository implements UserRepositoryInterface{
                     }
                 });
 
-        const {     
-            first_name,
-            last_name,
-            birth_day,
-            role_id
-        } = user;
-
-        return {
-            first_name,
-            last_name,
-            years: this.getUserYears(birth_day),
-            role_id,
-            email
+        if(user) {
+            return {
+                first_name: user.first_name,
+                last_name: user.last_name,
+                years: this.getUserYears(user.birth_day),
+                role_id: user.role_id,
+                email: user.email,
+                password: user.password
+            }
         }
+
+        return null;
     }
     
-    // async list(): Array<DataUser> {
+    async list(): Promise<DataUser[]> {
+        const users = await dbClient.user.findMany();
 
-    // }
+        return users.map(user => {
+            return {
+                first_name: user.first_name,
+                last_name: user.last_name,
+                years: this.getUserYears(user.birth_day),
+                role_id: user.role_id,
+                email: user.email,
+                password: user.password
+            }
+        });
+    }
     
     async delete(id: number): Promise<void> {
 
-        try {
-            
-            const user = await dbClient.user.findFirst({
-                where: {
-                    id
-                }
-            });
-
-            if(!user) {
-                throw new Error("Usuário não encontrado");
+        const user = await dbClient.user.findFirst({
+            where: {
+                id
             }
-            
-             await dbClient.user.delete({
-                       where: {
-                           id,
-                        },
-                });
-            
-          } catch (error) {
-            throw new Error(error);
-          } 
+        });
+
+        if(user) {
+            await dbClient.user.delete({
+                where: {
+                    id,
+                 },
+            });
+        }
     }
 
     private getUserYears(birthDay: string) {
@@ -166,6 +151,7 @@ class UserRepository implements UserRepositoryInterface{
 
         return `${years} Years`;
     }
+
 }
 
 export { UserRepository };

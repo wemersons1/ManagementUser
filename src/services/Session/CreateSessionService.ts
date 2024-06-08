@@ -1,6 +1,6 @@
 import { inject, injectable } from 'tsyringe';
 import { AuthProviderInterface } from "../../providers/Auth/AuthProviderInterface";
-import { FindUserByEmailService } from '../User/FindUserByEmailService';
+import { UserRepositoryInterface } from '../../repositories/User/UserRepositoryInterface';
 interface SessionInterface {
     email: string;
     password: string;
@@ -8,14 +8,15 @@ interface SessionInterface {
 
 @injectable()
 class CreateSessionService {
-    constructor(@inject('AuthProvider') private authProvider: AuthProviderInterface) {}
+    constructor(
+        @inject('AuthProvider') private authProvider: AuthProviderInterface,
+        @inject('UserRepository') private userRepository: UserRepositoryInterface,
+) {}
 
     async execute(data: SessionInterface) {
         const { email, password } = data;
-        
-        const findUserByEmailService = new FindUserByEmailService();
 
-        const user = await findUserByEmailService.execute(email);
+        const user = await this.userRepository.findUserByEmail(email);
 
         if(!user) {
             throw new Error('Usuário não encontrado');

@@ -7,13 +7,21 @@ interface DataUser {
     role_id: number;
     email: string;
 } 
-
 @injectable()
 class FindUserByIdService {
 
     constructor(@inject('UserRepository') private userRepository: UserRepositoryInterface) {}
-    async execute(id: number) {
-        return await this.userRepository.findUserById(id);
+
+    async execute(id: number): Promise<DataUser> {
+        const user = await this.userRepository.findUserById(id);
+        
+        return {
+            first_name: user.first_name,
+            last_name: user.last_name,
+            years: user.years,
+            role_id: user.role_id,
+            email: user.email
+        };
     }
 }
 

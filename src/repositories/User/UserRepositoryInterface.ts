@@ -12,6 +12,7 @@ interface DataUser {
     years: string;
     role_id: number;
     email: string;
+    password: string;
 } 
 
 interface UserRepositoryInterface {
@@ -19,7 +20,7 @@ interface UserRepositoryInterface {
     update(id: number, data: PayloadUser): Promise<DataUser>
     findUserById(id: number): Promise<DataUser>
     findUserByEmail(email: string): Promise<DataUser>
-    // list(): Array<DataUser>
+    list(): Promise<DataUser[]>
     delete(id: number): void
 }
 

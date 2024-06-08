@@ -1,14 +1,27 @@
-import dbClient from '../../dbClient';
-
+import { inject } from 'tsyringe';
+import { UserRepositoryInterface } from '../../repositories/User/UserRepositoryInterface';
+interface DataUser {
+    first_name: string;
+    last_name: string;
+    years: string;
+    role_id: number;
+    email: string;
+} 
+interface PayloadUser {
+    first_name: string;
+    last_name: string;
+    birth_day: string;
+    role_id: number;
+    email: string;
+    password: string;
+}
 class FindUserByEmailService {
+    constructor(@inject('UserRepository') private userRepository: UserRepositoryInterface) {}
 
-    async execute(email: string) {
+    async execute(email: string): Promise<DataUser> {
 
-        return await dbClient.user.findFirst({
-                    where: {
-                        email
-                    }
-                });
+        return await this.userRepository.findUserByEmail(email);
+
     }
 }
 

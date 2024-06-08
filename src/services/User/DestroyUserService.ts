@@ -1,16 +1,5 @@
 import { inject, injectable } from 'tsyringe';
 import { UserRepositoryInterface } from '../../repositories/User/UserRepositoryInterface';
-import { FindUserByEmailService } from './FindUserByEmailService';
-import { FindUserByIdService } from './FindUserByIdService';
-
-interface PayloadUser {
-    first_name: string;
-    last_name: string;
-    birth_day: string;
-    role_id: number;
-    email: string;
-    password: string;
-}
 
 interface DataUser {
     first_name: string;
@@ -24,16 +13,13 @@ interface DataUser {
 class DestroyUserService {
 
     constructor(@inject('UserRepository') private userRepository: UserRepositoryInterface) {}
-    async execute(id: number): Promise<DataUser> {
-        const findUserByIdService = new FindUserByIdService();
-        
-        const user = await findUserByIdService.execute(id);
-
-        if(user) {
-            throw new Error('Usuário já cadastrado');
+   
+    async execute(id: number): Promise<void> {
+        try {
+            await this.userRepository.delete(id);
+        }catch(error) {
+            throw new Error(error);
         }
-        
-        return await this.userRepository.create(data);
     }
 }
 

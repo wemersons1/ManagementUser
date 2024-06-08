@@ -2,8 +2,9 @@ import { Request, Response } from "express";
 import container from '../config/container';
 import { CreateUserService } from "../services/User/CreateUserService";
 import { UpdateUserService } from "../services/User/UpdateUserService";
-import { FindUserByEmailService } from "../services/User/FindUserByEmailService";
 import { FindUserByIdService } from "../services/User/FindUserByIdService";
+import { DestroyUserService } from "../services/User/DestroyUserService";
+import { ListUserService } from "../services/User/ListUserService";
 
 class UserController {
     async store(req: Request, res: Response) {
@@ -27,7 +28,7 @@ class UserController {
             password 
         });
 
-        res.json(userCreated);
+        res.status(201).json(userCreated);
     }
 
     async update(req: Request, res: Response) {
@@ -64,6 +65,24 @@ class UserController {
         const user = await findUserByIdService.execute(+id);
 
         res.json(user);
+    }
+
+    async destroy(req: Request, res: Response) {
+        const { id } = req.params;
+
+        const destroyUserService = container.resolve(DestroyUserService);
+        
+        await destroyUserService.execute(+id);
+
+        res.status(204).json();
+    }
+
+    async index(req: Request, res: Response) {
+        const listUserService = container.resolve(ListUserService);
+
+        const users = await listUserService.execute();
+
+        res.json(users);
     }
 }
 
