@@ -5,6 +5,7 @@ import { UpdateUserService } from "../services/User/UpdateUserService";
 import { FindUserByIdService } from "../services/User/FindUserByIdService";
 import { DestroyUserService } from "../services/User/DestroyUserService";
 import { ListUserService } from "../services/User/ListUserService";
+import { UpdateImageUserService } from "../services/User/UpdateImageUserService";
 
 class UserController {
     async store(req: Request, res: Response) {
@@ -83,6 +84,25 @@ class UserController {
         const users = await listUserService.execute();
 
         res.json(users);
+    }
+
+    async updateImage(req: Request, res: Response) {
+        let image = null;
+        if(typeof req.file != 'undefined') {
+            const { filename } = req.file;
+            image = filename;
+        }
+        
+        const updateImageUserService = container.resolve(UpdateImageUserService);
+        const filename = req.query.filename as string;
+        const { id } = req.params;
+        const data = {
+            image
+        };
+
+        const userImage = await updateImageUserService.execute(+id, data);
+
+        return res.send(userImage);
     }
 }
 

@@ -13,6 +13,7 @@ interface DataUser {
     role_id: number;
     email: string;
     password: string;
+    image: string;
 } 
 
 interface UserRepositoryInterface {

@@ -6,6 +6,7 @@ interface DataUser {
     years: string;
     role_id: number;
     email: string;
+    image: string;
 } 
 @injectable()
 class ListUserService {
@@ -21,7 +22,8 @@ class ListUserService {
                 last_name: user.last_name,
                 years: user.years,
                 role_id: user.role_id,
-                email: user.email
+                email: user.email,
+                image: user.image
             };
         });
     }

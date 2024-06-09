@@ -1,7 +1,5 @@
 import { inject, injectable } from 'tsyringe';
 import { UserRepositoryInterface } from '../../repositories/User/UserRepositoryInterface';
-
-
 interface PayloadUser {
     first_name: string;
     last_name: string;
@@ -17,6 +15,7 @@ interface DataUser {
     years: string;
     role_id: number;
     email: string;
+    image: string;
 } 
 
 @injectable()
@@ -24,6 +23,12 @@ class UpdateUserService {
 
     constructor(@inject('UserRepository') private userRepository: UserRepositoryInterface) {}
     async execute(id: number, data: PayloadUser): Promise<DataUser> {
+        const existUser = await this.userRepository.findUserById(+id);
+
+        if(!existUser) {
+            throw new Error('Usuário não encontrado');
+        }
+
         const user = await this.userRepository.update(id, data);
         
         return {
@@ -31,7 +36,8 @@ class UpdateUserService {
             last_name: user.last_name,
             years: user.years,
             role_id: user.role_id,
-            email: user.email
+            email: user.email,
+            image: user.image
         };
     }
 }

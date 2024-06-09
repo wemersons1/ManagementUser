@@ -14,6 +14,7 @@ interface PayloadUser {
     role_id: number;
     email: string;
     password: string;
+    image: string;
 }
 class FindUserByEmailService {
     constructor(@inject('UserRepository') private userRepository: UserRepositoryInterface) {}

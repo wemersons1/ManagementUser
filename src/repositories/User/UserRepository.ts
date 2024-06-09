@@ -16,6 +16,7 @@ interface DataUser {
     role_id: number;
     email: string;
     password: string;
+    image: string;
 } 
 class UserRepository implements UserRepositoryInterface{
     async create(data: PayloadUser): Promise<DataUser> {
@@ -30,7 +31,8 @@ class UserRepository implements UserRepositoryInterface{
                 years: this.getUserYears(user.birth_day),
                 role_id: user.role_id,
                 email: user.email,
-                password: user.password
+                password: user.password,
+                image: user.image
             }
         }
 
@@ -44,6 +46,10 @@ class UserRepository implements UserRepositoryInterface{
                 }
             });
 
+        if(!existUser) {
+            return null;
+        }
+        
         const user =  await dbClient.user.update({
                                     where: {
                                         id
@@ -58,7 +64,8 @@ class UserRepository implements UserRepositoryInterface{
             years: this.getUserYears(user.birth_day),
             role_id: user.role_id,
             email: user.email,
-            password: user.password
+            password: user.password,
+            image: user.image
         }
     }
     
@@ -76,7 +83,8 @@ class UserRepository implements UserRepositoryInterface{
                 years: this.getUserYears(user.birth_day),
                 role_id: user.role_id,
                 email: user.email,
-                password: user.password
+                password: user.password,
+                image: user.image
             }
         }
 
@@ -97,7 +105,8 @@ class UserRepository implements UserRepositoryInterface{
                 years: this.getUserYears(user.birth_day),
                 role_id: user.role_id,
                 email: user.email,
-                password: user.password
+                password: user.password,
+                image: user.image
             }
         }
 
@@ -114,7 +123,8 @@ class UserRepository implements UserRepositoryInterface{
                 years: this.getUserYears(user.birth_day),
                 role_id: user.role_id,
                 email: user.email,
-                password: user.password
+                password: user.password,
+                image: user.image
             }
         });
     }
