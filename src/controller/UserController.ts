@@ -6,6 +6,8 @@ import { FindUserByIdService } from "../services/User/FindUserByIdService";
 import { DestroyUserService } from "../services/User/DestroyUserService";
 import { ListUserService } from "../services/User/ListUserService";
 import { UpdateImageUserService } from "../services/User/UpdateImageUserService";
+import { ADMIN } from "../../constants/roles";
+import { getUserLogged } from "../providers/User/GetUserLogged";
 
 class UserController {
     async store(req: Request, res: Response) {
@@ -17,6 +19,10 @@ class UserController {
             email,
             password 
         } = req.body;
+
+        if(role_id === ADMIN) {
+            throw new Error("Usuário não possui acesso a este recurso");
+        }
 
         const createUserService = container.resolve(CreateUserService);
 
@@ -34,6 +40,13 @@ class UserController {
 
     async update(req: Request, res: Response) {
         const { id } = req.params;
+        const { authorization } = req.headers;
+
+        const userLogged = await getUserLogged(authorization);
+        
+        if( userLogged.id !== +id) {
+            throw new Error("Usuário não possui acesso a este recurso");
+        }
 
         const {   
             first_name,
@@ -62,7 +75,7 @@ class UserController {
         const { id } = req.params;
 
         const findUserByIdService = container.resolve(FindUserByIdService);
-        
+   
         const user = await findUserByIdService.execute(+id);
 
         res.json(user);
@@ -70,6 +83,13 @@ class UserController {
 
     async destroy(req: Request, res: Response) {
         const { id } = req.params;
+        const { authorization } = req.headers;
+
+        const userLogged = await getUserLogged(authorization);
+        
+        if(userLogged.role_id != ADMIN || userLogged.id === +id) {
+            throw new Error("Usuário não possui acesso a este recurso");
+        }
 
         const destroyUserService = container.resolve(DestroyUserService);
         
@@ -79,6 +99,13 @@ class UserController {
     }
 
     async index(req: Request, res: Response) {
+        const { authorization } = req.headers;
+        const userLogged = await getUserLogged(authorization);
+        
+        if(userLogged.role_id != ADMIN) {
+            throw new Error("Usuário não possui acesso a este recurso");
+        }
+
         const listUserService = container.resolve(ListUserService);
 
         const users = await listUserService.execute();
@@ -94,7 +121,6 @@ class UserController {
         }
         
         const updateImageUserService = container.resolve(UpdateImageUserService);
-        const filename = req.query.filename as string;
         const { id } = req.params;
         const data = {
             image

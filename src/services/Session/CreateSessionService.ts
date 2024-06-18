@@ -28,11 +28,11 @@ class CreateSessionService {
             throw new Error('Usuário ou senha inválido(s)');
         }
 
-        //Criar provider pra isto
         const token = this.authProvider.sign(
             {
                 name: user.first_name,
-                email: user.email
+                email: user.email,
+                user_id: user.id
             },
             process.env.JWT_KEY,
             {

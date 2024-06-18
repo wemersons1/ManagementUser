@@ -1,6 +1,7 @@
 interface UserPayload {
-    email: string,
-    name: string
+    email: string;
+    name: string;
+    user_id: number;
 }
 
 interface OptionsPayload {

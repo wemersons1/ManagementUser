@@ -1,6 +1,7 @@
 import { inject, injectable } from 'tsyringe';
 import { UserRepositoryInterface } from '../../repositories/User/UserRepositoryInterface';
-
+import bcrypt from 'bcrypt';
+import { HASH_SALT } from '../../../constants/password_config';
 interface PayloadUser {
     first_name: string;
     last_name: string;
@@ -17,6 +18,7 @@ interface DataUser {
     role_id: number;
     email: string;
     image: string;
+    id: number;
 } 
 
 @injectable()
@@ -31,10 +33,13 @@ class CreateUserService {
         if(existUser) {
             throw new Error('Usuário já cadastrado');
         }
-
-        const user =  await this.userRepository.create(data);
+        const user =  await this.userRepository.create({
+            ...data,
+            password: await bcrypt.hash('12345678', HASH_SALT),
+        });
 
         return {
+            id: user.id,
             first_name: user.first_name,
             last_name: user.last_name,
             years: user.years,

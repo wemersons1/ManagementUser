@@ -6,23 +6,14 @@ interface DataUser {
     years: string;
     role_id: number;
     email: string;
+    id: number;
 } 
-interface PayloadUser {
-    first_name: string;
-    last_name: string;
-    birth_day: string;
-    role_id: number;
-    email: string;
-    password: string;
-    image: string;
-}
 class FindUserByEmailService {
     constructor(@inject('UserRepository') private userRepository: UserRepositoryInterface) {}
 
     async execute(email: string): Promise<DataUser> {
 
         return await this.userRepository.findUserByEmail(email);
-
     }
 }
 

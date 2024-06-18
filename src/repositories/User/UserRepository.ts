@@ -17,6 +17,7 @@ interface DataUser {
     email: string;
     password: string;
     image: string;
+    id: number;
 } 
 class UserRepository implements UserRepositoryInterface{
     async create(data: PayloadUser): Promise<DataUser> {
@@ -32,7 +33,8 @@ class UserRepository implements UserRepositoryInterface{
                 role_id: user.role_id,
                 email: user.email,
                 password: user.password,
-                image: user.image
+                image: user.image,
+                id: user.id
             }
         }
 
@@ -65,7 +67,8 @@ class UserRepository implements UserRepositoryInterface{
             role_id: user.role_id,
             email: user.email,
             password: user.password,
-            image: user.image
+            image: user.image,
+            id: user.id
         }
     }
     
@@ -84,7 +87,8 @@ class UserRepository implements UserRepositoryInterface{
                 role_id: user.role_id,
                 email: user.email,
                 password: user.password,
-                image: user.image
+                image: user.image,
+                id: user.id
             }
         }
 
@@ -106,7 +110,8 @@ class UserRepository implements UserRepositoryInterface{
                 role_id: user.role_id,
                 email: user.email,
                 password: user.password,
-                image: user.image
+                image: user.image,
+                id: user.id
             }
         }
 
@@ -124,7 +129,8 @@ class UserRepository implements UserRepositoryInterface{
                 role_id: user.role_id,
                 email: user.email,
                 password: user.password,
-                image: user.image
+                image: user.image,
+                id: user.id
             }
         });
     }

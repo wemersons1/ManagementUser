@@ -14,6 +14,7 @@ interface DataUser {
     email: string;
     password: string;
     image: string;
+    id: number;
 } 
 
 interface UserRepositoryInterface {
