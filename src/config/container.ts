@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import { container } from 'tsyringe';
 import { AuthProviderInterface } from '../providers/Auth/AuthProviderInterface';
 import { AuthProvider } from '../providers/Auth/AuthProvider';

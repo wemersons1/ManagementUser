@@ -16,12 +16,12 @@ interface DataUser {
 class UpdateImageUserService {
     constructor(@inject('UserRepository') private userRepository: UserRepositoryInterface) {}
 
-    async execute(id: number, data: any): Promise<DataUser> {
-        const existUser = await this.userRepository.findUserById(+id);
-
-        if(!existUser) {
-            throw new Error('Usuário não encontrado');
+    async execute(id: number, userLogged: any): Promise<DataUser> {
+        if(userLogged.id !== +id) {
+            throw new Error("Usuário não possui acesso a este recurso");
         }
+
+        const existUser = await this.userRepository.findUserById(+id);
 
         this.deleteOldImage(existUser.image);
 
@@ -35,9 +35,9 @@ class UpdateImageUserService {
         };
     }
 
-    private deleteOldImage(image) {
+    private deleteOldImage(image: string) {
         const filePath = path.join(__dirname + '../../../../' + '/uploads/', image);
-        fs.stat(filePath, (err, stats) => {
+        fs.stat(filePath, (err) => {
             if (!err) {
                 fs.unlink(filePath, (err) => {
                     if (err) {

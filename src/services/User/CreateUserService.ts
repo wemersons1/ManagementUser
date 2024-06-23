@@ -3,6 +3,7 @@ import { inject, injectable } from 'tsyringe';
 import { UserRepositoryInterface } from '../../repositories/UserRepositoryInterface';
 import bcrypt from 'bcrypt';
 import { HASH_SALT } from '../../../constants/password_config';
+import { ADMIN } from '../../../constants/roles';
 interface PayloadUser {
     first_name: string;
     last_name: string;
@@ -27,8 +28,12 @@ class CreateUserService {
 
     constructor(@inject('UserRepository') private userRepository: UserRepositoryInterface) {}
     async execute(data: PayloadUser): Promise<DataUser> {
-        const { email } = data;
+        const { email, role_id } = data;
   
+        if(role_id === ADMIN) {
+            throw new Error("Usuário não possui acesso a este recurso");
+        }
+
         const existUser = await this.userRepository.findUserByEmail(email);
    
         if(existUser) {
@@ -36,7 +41,7 @@ class CreateUserService {
         }
         const user =  await this.userRepository.create({
             ...data,
-            password: await bcrypt.hash('12345678', HASH_SALT),
+            password: await bcrypt.hash(data.password, HASH_SALT),
         });
 
         return {

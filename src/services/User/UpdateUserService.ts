@@ -25,16 +25,14 @@ interface DataUser {
 class UpdateUserService {
 
     constructor(@inject('UserRepository') private userRepository: UserRepositoryInterface) {}
-    async execute(id: number, data: PayloadUser): Promise<DataUser> {
-        const existUser = await this.userRepository.findUserById(+id);
-
-        if(!existUser) {
-            throw new Error('Usuário não encontrado');
+    async execute(id: number, data: PayloadUser, userLogged: any): Promise<DataUser> {
+        if(userLogged.id !== +id) {
+            throw new Error("Usuário não possui acesso a este recurso");
         }
 
         const user = await this.userRepository.update(id, {
             ...data,
-            password: await bcrypt.hash('12345678', HASH_SALT),
+            password: await bcrypt.hash(data.password, HASH_SALT),
         });
         
         return {

@@ -1,8 +1,5 @@
 import { Request, Response, NextFunction } from "express";
 import { verify } from "jsonwebtoken";
-interface Payload {
-    role_id: number;
-}
 
 const verifyIfIsAuthenticated = (req: Request, res: Response, next: NextFunction) => {
     const { authorization } = req.headers;

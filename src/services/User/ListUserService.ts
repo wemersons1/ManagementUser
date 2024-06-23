@@ -1,5 +1,6 @@
 import { inject, injectable } from 'tsyringe';
 import { UserRepositoryInterface } from '../../repositories/UserRepositoryInterface';
+import { ADMIN } from '../../../constants/roles';
 interface DataUser {
     first_name: string;
     last_name: string;
@@ -14,7 +15,10 @@ class ListUserService {
 
     constructor(@inject('UserRepository') private userRepository: UserRepositoryInterface) {}
 
-    async execute(): Promise<DataUser[]> {
+    async execute(userLogged: any): Promise<DataUser[]> {
+        if(userLogged.role_id != ADMIN) {
+            throw new Error("Usuário não possui acesso a este recurso");
+        }
         const users = await this.userRepository.list();
 
         return users.map(user => {

@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import { inject, injectable } from 'tsyringe';
 import { AuthProviderInterface } from "../../providers/Auth/AuthProviderInterface";
 import { UserRepositoryInterface } from '../../repositories/UserRepositoryInterface';
@@ -21,7 +22,7 @@ class CreateSessionService {
         if(!user) {
             throw new Error('Usuário não encontrado');
         }
-
+        
         const passwordMatch = await this.authProvider.comparePassword(password, user.password);
         
         if(!passwordMatch) {

@@ -20,10 +20,6 @@ class UserController {
             password 
         } = req.body;
 
-        if(role_id === ADMIN) {
-            throw new Error("Usuário não possui acesso a este recurso");
-        }
-
         const createUserService = container.resolve(CreateUserService);
 
         const userCreated = await createUserService.execute({
@@ -44,10 +40,6 @@ class UserController {
 
         const userLogged = await getUserLogged(authorization);
         
-        if( userLogged.id !== +id) {
-            throw new Error("Usuário não possui acesso a este recurso");
-        }
-
         const {   
             first_name,
             last_name,
@@ -66,7 +58,7 @@ class UserController {
             role_id,
             email,
             password 
-        });
+        }, userLogged);
 
         res.json(userUpdated);
     }
@@ -86,14 +78,10 @@ class UserController {
         const { authorization } = req.headers;
 
         const userLogged = await getUserLogged(authorization);
-        
-        if(userLogged.role_id != ADMIN || userLogged.id === +id) {
-            throw new Error("Usuário não possui acesso a este recurso");
-        }
 
         const destroyUserService = container.resolve(DestroyUserService);
         
-        await destroyUserService.execute(+id);
+        await destroyUserService.execute(+id, userLogged);
 
         res.status(204).json();
     }
@@ -101,32 +89,22 @@ class UserController {
     async index(req: Request, res: Response) {
         const { authorization } = req.headers;
         const userLogged = await getUserLogged(authorization);
-        
-        if(userLogged.role_id != ADMIN) {
-            throw new Error("Usuário não possui acesso a este recurso");
-        }
 
         const listUserService = container.resolve(ListUserService);
 
-        const users = await listUserService.execute();
+        const users = await listUserService.execute(userLogged);
 
         res.json(users);
     }
 
-    async updateImage(req: Request, res: Response) {
-        let image = null;
-        if(typeof req.file != 'undefined') {
-            const { filename } = req.file;
-            image = filename;
-        }
-        
+    async updateImage(req: Request, res: Response) {    
         const updateImageUserService = container.resolve(UpdateImageUserService);
         const { id } = req.params;
-        const data = {
-            image
-        };
+        const { authorization } = req.headers;
+        
+        const userLogged = getUserLogged(authorization);
 
-        const userImage = await updateImageUserService.execute(+id, data);
+        const userImage = await updateImageUserService.execute(+id, userLogged);
 
         return res.send(userImage);
     }

@@ -64,7 +64,7 @@ class UserRepository implements UserRepositoryInterface{
         return {
             first_name: user.first_name,
             last_name: user.last_name,
-            years: this.getUserYears(user.birth_day),
+            years: getUserYears(user.birth_day),
             role_id: user.role_id,
             email: user.email,
             password: user.password,
@@ -84,7 +84,7 @@ class UserRepository implements UserRepositoryInterface{
             return {
                 first_name: user.first_name,
                 last_name: user.last_name,
-                years: this.getUserYears(user.birth_day),
+                years: getUserYears(user.birth_day),
                 role_id: user.role_id,
                 email: user.email,
                 password: user.password,
@@ -107,7 +107,7 @@ class UserRepository implements UserRepositoryInterface{
             return {
                 first_name: user.first_name,
                 last_name: user.last_name,
-                years: this.getUserYears(user.birth_day),
+                years: getUserYears(user.birth_day),
                 role_id: user.role_id,
                 email: user.email,
                 password: user.password,
@@ -126,7 +126,7 @@ class UserRepository implements UserRepositoryInterface{
             return {
                 first_name: user.first_name,
                 last_name: user.last_name,
-                years: this.getUserYears(user.birth_day),
+                years: getUserYears(user.birth_day),
                 role_id: user.role_id,
                 email: user.email,
                 password: user.password,

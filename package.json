@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
+    "test": "jest --setupFiles dotenv/config",
+    "live-reload": "ts-node-dev --exit-child --transpile-only --ignore-watch node_modules src/server.ts",
     "dev": "ts-node-dev src/server.ts"
   },
   "prisma": {
