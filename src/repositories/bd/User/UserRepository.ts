@@ -1,5 +1,6 @@
-import dbClient from "../../dbClient";
-import { UserRepositoryInterface } from "./UserRepositoryInterface";
+import dbClient from "../../../dbClient";
+import { getUserYears } from "../../../utils/date";
+import { UserRepositoryInterface } from "../../UserRepositoryInterface";
 
 interface PayloadUser {
     first_name: string;
@@ -29,7 +30,7 @@ class UserRepository implements UserRepositoryInterface{
             return {
                 first_name: user.first_name,
                 last_name: user.last_name,
-                years: this.getUserYears(user.birth_day),
+                years: getUserYears(user.birth_day),
                 role_id: user.role_id,
                 email: user.email,
                 password: user.password,
@@ -151,23 +152,6 @@ class UserRepository implements UserRepositoryInterface{
             });
         }
     }
-
-    private getUserYears(birthDay: string) {
-        const dateBirthDay = new Date(birthDay);
-        const today = new Date();
-        let years = today.getFullYear() - dateBirthDay.getFullYear();
-        const currentMonth = today.getMonth();
-        const currentDay = today.getDate();
-        const monthBirthDay = dateBirthDay.getMonth();
-        const dayBirthDay = dateBirthDay.getDate();
-
-        if (currentMonth < monthBirthDay || (currentMonth === monthBirthDay && currentDay < dayBirthDay)) {
-            years--;
-        }
-
-        return `${years} Years`;
-    }
-
 }
 
 export { UserRepository };

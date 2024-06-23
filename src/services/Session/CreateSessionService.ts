@@ -1,6 +1,6 @@
 import { inject, injectable } from 'tsyringe';
 import { AuthProviderInterface } from "../../providers/Auth/AuthProviderInterface";
-import { UserRepositoryInterface } from '../../repositories/User/UserRepositoryInterface';
+import { UserRepositoryInterface } from '../../repositories/UserRepositoryInterface';
 interface SessionInterface {
     email: string;
     password: string;

@@ -1,5 +1,5 @@
 import { inject, injectable } from "tsyringe";
-import { UserRepositoryInterface } from "../../repositories/User/UserRepositoryInterface";
+import { UserRepositoryInterface } from "../../repositories/UserRepositoryInterface";
 import fs from 'fs';
 import path from 'path';
 
@@ -23,17 +23,15 @@ class UpdateImageUserService {
             throw new Error('Usuário não encontrado');
         }
 
-        const user = await this.userRepository.update(+id, data);
-
         this.deleteOldImage(existUser.image);
 
         return {
-            first_name: user.first_name,
-            last_name: user.last_name,
-            years: user.years,
-            role_id: user.role_id,
-            email: user.email,
-            image: user.image
+            first_name: existUser.first_name,
+            last_name: existUser.last_name,
+            years: existUser.years,
+            role_id: existUser.role_id,
+            email: existUser.email,
+            image: existUser.image
         };
     }
 

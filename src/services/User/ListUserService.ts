@@ -1,5 +1,5 @@
 import { inject, injectable } from 'tsyringe';
-import { UserRepositoryInterface } from '../../repositories/User/UserRepositoryInterface';
+import { UserRepositoryInterface } from '../../repositories/UserRepositoryInterface';
 interface DataUser {
     first_name: string;
     last_name: string;

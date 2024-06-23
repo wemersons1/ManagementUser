@@ -1,6 +1,5 @@
 import express, { Request, Response, NextFunction} from 'express';
 import 'express-async-errors';
-import 'reflect-metadata';
 import cors from 'cors';
 import 'dotenv/config';
 import { router } from './routes/api';
@@ -20,7 +19,7 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
     }
 
     return res.json(500).json({
-        error: 'Internal server error'
+        error: `Internal server error - ${err}`
     });
 });
 

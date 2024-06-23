@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "dev": "ts-node-dev src/server.ts"
   },
   "prisma": {
@@ -35,7 +35,10 @@
     "@types/bcrypt": "^5.0.2",
     "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",
+    "@types/jest": "^29.5.12",
     "@types/jsonwebtoken": "^9.0.6",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.5",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.4.5"
   }

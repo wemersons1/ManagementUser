@@ -1,5 +1,6 @@
+import 'reflect-metadata';
 import { inject, injectable } from 'tsyringe';
-import { UserRepositoryInterface } from '../../repositories/User/UserRepositoryInterface';
+import { UserRepositoryInterface } from '../../repositories/UserRepositoryInterface';
 import bcrypt from 'bcrypt';
 import { HASH_SALT } from '../../../constants/password_config';
 interface PayloadUser {

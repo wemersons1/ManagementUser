@@ -3,7 +3,7 @@ import { FindUserByIdService } from "../../services/User/FindUserByIdService";
 import container from '../../config/container';
 
 interface Payload {
-    user_id
+    user_id: number
 }
 
 const getUserLogged = async (authorization: string) => {
