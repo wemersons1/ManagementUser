@@ -4,6 +4,7 @@ import fs from 'fs';
 import path from 'path';
 
 interface DataUser {
+    id: number;
     first_name: string;
     last_name: string;
     years: string;
@@ -16,7 +17,7 @@ interface DataUser {
 class UpdateImageUserService {
     constructor(@inject('UserRepository') private userRepository: UserRepositoryInterface) {}
 
-    async execute(id: number, userLogged: any): Promise<DataUser> {
+    async execute(id: number, data: any, userLogged: any): Promise<DataUser> {
         if(userLogged.id !== +id) {
             throw new Error("Usuário não possui acesso a este recurso");
         }
@@ -25,27 +26,32 @@ class UpdateImageUserService {
 
         this.deleteOldImage(existUser.image);
 
+        const user = await this.userRepository.update(id, data);
+
         return {
-            first_name: existUser.first_name,
-            last_name: existUser.last_name,
-            years: existUser.years,
-            role_id: existUser.role_id,
-            email: existUser.email,
-            image: existUser.image
+            id: user.id,
+            first_name: user.first_name,
+            last_name: user.last_name,
+            years: user.years,
+            role_id: user.role_id,
+            email: user.email,
+            image: user.image
         };
     }
 
     private deleteOldImage(image: string) {
-        const filePath = path.join(__dirname + '../../../../' + '/uploads/', image);
-        fs.stat(filePath, (err) => {
-            if (!err) {
-                fs.unlink(filePath, (err) => {
-                    if (err) {
-                        throw new Error('Erro ao deletar o arquivo');
-                    }
-                });
-            } 
-        });
+        if(image) {
+            const filePath = path.join(__dirname + '../../../../' + '/uploads/', image);
+            fs.stat(filePath, (err) => {
+                if (!err) {
+                    fs.unlink(filePath, (err) => {
+                        if (err) {
+                            throw new Error('Erro ao deletar o arquivo');
+                        }
+                    });
+                } 
+            });
+        }
     }
 }
 

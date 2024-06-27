@@ -3,9 +3,6 @@ import { UserRepositoryInterface } from "../../../repositories/UserRepositoryInt
 import { UserRepositoryInMemory } from "../../../repositories/in-memory/User/UserRepositoryInMemory";
 import { CreateUserService } from "../../../services/User/CreateUserService";
 import { UpdateImageUserService } from "../../../services/User/UpdateImageUserService";
-import { UpdateUserService } from "../../../services/User/UpdateUserService";
-import { getUserYears } from "../../../utils/date";
-
 interface PayloadUser {
     first_name: string;
     last_name: string;
@@ -49,9 +46,23 @@ describe('Update image user', () => {
         userImageUpdated = await createUserService.execute(dataUserImageUpdated);
     });
 
-    it("Should not be able to update a user image", async () => {     
-        await expect(updateImageUserService.execute(userImageUpdated.id, userLogged)).rejects.toEqual(
+    it("Should not be able to update a user image", async () => {  
+        const dataImage = {
+            image: 'name-image.jpg'
+        };
+        
+        await expect(updateImageUserService.execute(userImageUpdated.id, dataImage, userLogged)).rejects.toEqual(
             new Error("Usuário não possui acesso a este recurso")
         );
+    });
+
+    it("Should not be able to update a user image", async () => {  
+        const dataImage = {
+            image: 'name-image.jpg'
+        };
+        const userUpdatedImage = await updateImageUserService.execute(userLogged.id, dataImage, userLogged)
+        
+        expect(userUpdatedImage).toHaveProperty('id');
+        expect(userUpdatedImage).toHaveProperty('image');
     });
 });

@@ -99,13 +99,17 @@ class UserController {
 
     async updateImage(req: Request, res: Response) {    
         const updateImageUserService = container.resolve(UpdateImageUserService);
+    
         const { id } = req.params;
+        const data = {
+            image: req.file.filename
+        };
         const { authorization } = req.headers;
-        
-        const userLogged = getUserLogged(authorization);
+    
+        const userLogged = await getUserLogged(authorization);
 
-        const userImage = await updateImageUserService.execute(+id, userLogged);
-
+        const userImage = await updateImageUserService.execute(+id, data, userLogged);
+      
         return res.send(userImage);
     }
 }

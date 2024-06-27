@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">51.92% </span>
+                <span class="strong">81.03% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>27/52</span>
+                <span class='fraction'>47/58</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">66.66% </span>
+                <span class="strong">80% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>2/3</span>
+                <span class='fraction'>4/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">66.66% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>2/3</span>
+                <span class='fraction'>3/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">51.92% </span>
+                <span class="strong">81.03% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>27/52</span>
+                <span class='fraction'>47/58</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -114,7 +114,33 @@
 <a name='L49'></a><a href='#L49'>49</a>
 <a name='L50'></a><a href='#L50'>50</a>
 <a name='L51'></a><a href='#L51'>51</a>
-<a name='L52'></a><a href='#L52'>52</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L52'></a><a href='#L52'>52</a>
+<a name='L53'></a><a href='#L53'>53</a>
+<a name='L54'></a><a href='#L54'>54</a>
+<a name='L55'></a><a href='#L55'>55</a>
+<a name='L56'></a><a href='#L56'>56</a>
+<a name='L57'></a><a href='#L57'>57</a>
+<a name='L58'></a><a href='#L58'>58</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -136,21 +162,6 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -163,6 +174,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span></td><td class="text"><pre class="prettyprint lang-js">import { inject, injectable } from "tsyringe";
@@ -171,6 +183,7 @@ import fs from 'fs';
 import path from 'path';
 &nbsp;
 interface DataUser {
+    id: number;
     first_name: string;
     last_name: string;
     years: string;
@@ -183,37 +196,42 @@ interface DataUser {
 class UpdateImageUserService {
     constructor(@inject('UserRepository') private userRepository: UserRepositoryInterface) {}
 &nbsp;
-    async execute(id: number, userLogged: any): Promise&lt;DataUser&gt; {
+    async execute(id: number, data: any, userLogged: any): Promise&lt;DataUser&gt; {
         if(userLogged.id !== +id) {
             throw new Error("Usuário não possui acesso a este recurso");
         }
-<span class="cstat-no" title="statement not covered" ><span class="branch-0 cbranch-no" title="branch not covered" ></span></span>
-<span class="cstat-no" title="statement not covered" >        const existUser = await this.userRepository.findUserById(+id);</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >        this.deleteOldImage(existUser.image);</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >        return {</span>
-<span class="cstat-no" title="statement not covered" >            first_name: existUser.first_name,</span>
-<span class="cstat-no" title="statement not covered" >            last_name: existUser.last_name,</span>
-<span class="cstat-no" title="statement not covered" >            years: existUser.years,</span>
-<span class="cstat-no" title="statement not covered" >            role_id: existUser.role_id,</span>
-<span class="cstat-no" title="statement not covered" >            email: existUser.email,</span>
-<span class="cstat-no" title="statement not covered" >            image: existUser.image</span>
-<span class="cstat-no" title="statement not covered" >        };</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
 &nbsp;
-    private <span class="fstat-no" title="function not covered" >deleteOldImage(image: string) {</span>
-<span class="cstat-no" title="statement not covered" >        const filePath = path.join(__dirname + '../../../../' + '/uploads/', image);</span>
-<span class="cstat-no" title="statement not covered" >        fs.stat(filePath, (err) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >            if (!err) {</span>
-<span class="cstat-no" title="statement not covered" >                fs.unlink(filePath, (err) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >                    if (err) {</span>
-<span class="cstat-no" title="statement not covered" >                        throw new Error('Erro ao deletar o arquivo');</span>
-<span class="cstat-no" title="statement not covered" >                    }</span>
-<span class="cstat-no" title="statement not covered" >                });</span>
-<span class="cstat-no" title="statement not covered" >            } </span>
-<span class="cstat-no" title="statement not covered" >        });</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
+        const existUser = await this.userRepository.findUserById(+id);
+&nbsp;
+        this.deleteOldImage(existUser.image);
+&nbsp;
+        const user = await this.userRepository.update(id, data);
+&nbsp;
+        return {
+            id: user.id,
+            first_name: user.first_name,
+            last_name: user.last_name,
+            years: user.years,
+            role_id: user.role_id,
+            email: user.email,
+            image: user.image
+        };
+    }
+&nbsp;
+    private deleteOldImage(image: string) {
+        if(image) <span class="branch-0 cbranch-no" title="branch not covered" >{</span>
+<span class="cstat-no" title="statement not covered" >            const filePath = path.join(__dirname + '../../../../' + '/uploads/', image);</span>
+<span class="cstat-no" title="statement not covered" >            fs.stat(filePath, (err) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >                if (!err) {</span>
+<span class="cstat-no" title="statement not covered" >                    fs.unlink(filePath, (err) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >                        if (err) {</span>
+<span class="cstat-no" title="statement not covered" >                            throw new Error('Erro ao deletar o arquivo');</span>
+<span class="cstat-no" title="statement not covered" >                        }</span>
+<span class="cstat-no" title="statement not covered" >                    });</span>
+<span class="cstat-no" title="statement not covered" >                } </span>
+<span class="cstat-no" title="statement not covered" >            });</span>
+<span class="cstat-no" title="statement not covered" >        }</span>
+    }
 }
 &nbsp;
 export { UpdateImageUserService };</pre></td></tr></table></pre>
@@ -223,7 +241,7 @@ export { UpdateImageUserService };</pre></td></tr></table></pre>
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-06-23T16:21:42.486Z
+                at 2024-06-27T22:46:45.149Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

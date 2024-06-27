@@ -6,7 +6,6 @@ import { UserRepositoryInterface } from "../../../repositories/UserRepositoryInt
 import { UserRepositoryInMemory } from "../../../repositories/in-memory/User/UserRepositoryInMemory";
 import { CreateSessionService } from "../../../services/Session/CreateSessionService";
 import { CreateUserService } from "../../../services/User/CreateUserService";
-
 interface PayloadUser {
     first_name: string;
     last_name: string;
@@ -15,13 +14,13 @@ interface PayloadUser {
     email: string;
     password: string;
 };
-
 interface DataLoggedPayload {
     name: string;
     email: string;
 }
 
 describe('Create session user', () => {
+    let jwtSecret = 'a7656fafe94dae72b1e1487670148412';
     let usersRepository: UserRepositoryInterface;
     let authProvider: AuthProviderInterface;
     let createUserService: CreateUserService;
@@ -49,7 +48,7 @@ describe('Create session user', () => {
  
         const { name, email } = verify(
             token,
-            process.env.JWT_SECRET
+            jwtSecret
         ) as DataLoggedPayload;
 
         expect(email).toBe(dataUser.email);
