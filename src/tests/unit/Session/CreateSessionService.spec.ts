@@ -49,7 +49,7 @@ describe('Create session user', () => {
  
         const { name, email } = verify(
             token,
-            process.env.JWT_KEY
+            process.env.JWT_SECRET
         ) as DataLoggedPayload;
 
         expect(email).toBe(dataUser.email);

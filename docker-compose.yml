@@ -1,37 +1,36 @@
-version: "3"
+version: "3.9"
+
 services:
-  live-reload:
-    build: .
-    container_name: users-api
+  db:
+    image: mysql:8.0
+    container_name: mysql
     environment:
-      PORT: 3000
-    command: bash .docker/start.sh
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: Le12_vem
+      MYSQL_ROOT_PASSWORD: Le12_vem
+      MYSQL_DATABASE: managementusers
+
+    ports:
+      - "3306:3306"
+    networks:
+      - network_app
+  app:
+    build: .
     volumes:
-      - .:/home/node/app
+      - ./:/app
     ports:
       - "3000:3000"
     networks:
-      - user-api-network
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
+      - network_app
     depends_on:
       - db
-  db:
-    build: ./.docker/mysql
-    container_name: users-api-db
-    command: --default-authentication-plugin=mysql_native_password
-    tty: true
-    ports:
-      - "3308:3306"
-    volumes:
-      - ./.docker/dbdata:/var/lib/mysql
-      - ./.docker/mysql:/docker-entrypoint-initdb.d
-    environment:
-      - MYSQL_ROOT_PASSWORD=root
-    cap_add:
-      - SYS_NICE
-    networks:
-      - user-api-network
+    command: >
+      sh -c "npm install &&
+      npx prisma generate &&
+      npx prisma migrate dev --name init &&
+      npx prisma db seed &&
+      npm run dev"
+
 networks:
-  user-api-network:
+  network_app:
     driver: bridge

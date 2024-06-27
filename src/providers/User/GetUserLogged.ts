@@ -11,7 +11,7 @@ const getUserLogged = async (authorization: string) => {
             
     const { user_id } = verify(
                 token,
-                process.env.JWT_KEY
+                process.env.JWT_SECRET
             ) as Payload;
     
     const findUserByIdService = container.resolve(FindUserByIdService);

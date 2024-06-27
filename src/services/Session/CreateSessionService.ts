@@ -35,7 +35,7 @@ class CreateSessionService {
                 email: user.email,
                 user_id: user.id
             },
-            process.env.JWT_KEY,
+            process.env.JWT_SECRET,
             {
                 expiresIn: '30d'
             }

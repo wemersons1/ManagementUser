@@ -4,7 +4,7 @@ import cors from 'cors';
 import 'dotenv/config';
 import { router } from './routes/api';
 
-const port = process.env.APP_PORT;
+const port = process.env.PORT;
 const app = express();
 app.use(express.json());
 app.use(cors());

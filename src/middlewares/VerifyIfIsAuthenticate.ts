@@ -10,7 +10,7 @@ const verifyIfIsAuthenticated = (req: Request, res: Response, next: NextFunction
             
             verify(
                 token,
-                process.env.JWT_KEY
+                process.env.JWT_SECRET
             );
             
         }catch(err) {
